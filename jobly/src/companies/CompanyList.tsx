@@ -27,9 +27,10 @@ export default function CompanyList() {
                     key={c.handle}
                     name={c.name}
                     description={c.description}
-                    logo_url={c.logo_url} 
+                    logoUrl={c.logoUrl} 
                     handle={c.handle} 
-                    num_employees={c.num_employees}                    
+                    numEmployees={c.numEmployees} 
+                    jobs={c.jobs}                   
                     />
 
             ))}
