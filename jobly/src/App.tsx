@@ -1,41 +1,85 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+// import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import RoutesFunc from './routes/Routes';
 import NavBarFunc from './routes/NavBar';
 import JoblyApi from './api'
-import { Company } from './types/types'
+import { Company, LoginData, SignupData, User } from './types/types'
+import UserContext from './auth/UserContext';
+import { decodeToken} from "react-jwt";
 
 
-export const CompaniesContext = React.createContext<Company[]>([]);
+
 
 function App() {
 
-  const [companies, setCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [token, setToken] = useState<string>()
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
+
 
   useEffect(() => {
-    async function getCompaniesAndJobs() {
-      let companies: Company[] = await JoblyApi.getCompanies();
-      setCompanies(companies);
-      setIsLoading(false);
+    async function getUserInfo() {
+      if (token) {
+        try {
+          let decodedToken = decodeToken<User>(token)
+          if (decodedToken !== null) {
+            const { username } = decodedToken;
+            JoblyApi.token = token;
+            let currentUser = await JoblyApi.getCurrentUser(username);
+            setCurrentUser(currentUser);
+          }
+        } catch (error) {
+          console.error('App getUserInfo: error', error)
+          setCurrentUser(null);
+        }
+      }
     }
 
-    getCompaniesAndJobs();
-  }, []);
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <NavBarFunc />
-        <CompaniesContext.Provider value={companies}>
-          <RoutesFunc />
-        </CompaniesContext.Provider>
+    getUserInfo()
+  }, [token])
 
-      </BrowserRouter>
+async function login(data: LoginData) {
+  try {
+    setToken(await JoblyApi.login(data));
+    return { success: true }
 
-    </div>
-  );
+  } catch (error) {
+    console.error("login failed", error);
+    return { success: false, error }
+  }
+}
+
+function logout() {
+  setCurrentUser(null);
+  setToken(undefined)
+}
+
+async function signup(data: SignupData) {
+  try {
+    setToken(await JoblyApi.signup(data));
+    return { success: true }
+  } catch (error) {
+    console.error("signup failed", error)
+    return { success: false, error }
+  }
+}
+
+
+return (
+  <div className="App">
+    <BrowserRouter>
+      <NavBarFunc />
+      <UserContext.Provider value={currentUser}>
+        <RoutesFunc login={login} signup={signup} logout={logout} />
+      </UserContext.Provider>
+
+
+    </BrowserRouter>
+
+  </div>
+);
 }
 
 export default App;
