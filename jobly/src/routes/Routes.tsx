@@ -8,11 +8,12 @@ import LoginForm from '../auth/LoginForm';
 import { AuthFuncProp } from '../types/types';
 import {PrivateRoute} from './PrivateRoute';
 import SignupForm from '../auth/SignupForm';
+import ProfileForm from '../profile/ProfileForm';
 
 
 
 
-export default function RoutesFunc({ login, signup, logout }: AuthFuncProp) {
+export default function RoutesFunc({ login, signup, updateProfile }: AuthFuncProp) {
     return (
         <Routes>
 
@@ -23,6 +24,7 @@ export default function RoutesFunc({ login, signup, logout }: AuthFuncProp) {
 
 
             <Route path='/signup' element={<SignupForm signup={signup} />} />
+            
 
 
             {/* Private Routes */}
@@ -46,13 +48,14 @@ export default function RoutesFunc({ login, signup, logout }: AuthFuncProp) {
                     <PrivateRoute path='/jobs' component={JobList} />
                 }
             />
-
-            {/* <Route
+            
+            <Route
                 path="/profile"
                 element={
-                    <PrivateRoute path='/profile' component={} />
+                    <PrivateRoute path='/profile' component={ProfileForm} />
+
                 }
-            /> */}
+            />
 
             {/* End of Private Routes */}
 
