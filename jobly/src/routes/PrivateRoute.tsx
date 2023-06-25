@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import UserContext from "../auth/UserContext";
+import UserContext from "../context/UserContext";
 
 /** 
  * 
@@ -12,14 +12,15 @@ import UserContext from "../auth/UserContext";
 interface Props {
     component: React.ComponentType;
     path?: string;
+    additionalProps?: any;
   }
 
-export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent }) => {
-    const currentUser = useContext(UserContext);
+export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent, additionalProps }) => {
+    const {currentUser} = useContext(UserContext);
 
     console.debug("PrivateRoute", "currentUser=", currentUser);
 
 
-    return currentUser ? <RouteComponent /> : <Navigate to={"/login"} />
+    return currentUser ? <RouteComponent {...additionalProps} /> : <Navigate to={"/login"} />
 }
 
