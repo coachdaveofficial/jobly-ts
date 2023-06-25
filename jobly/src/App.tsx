@@ -5,18 +5,31 @@ import { BrowserRouter } from 'react-router-dom';
 import RoutesFunc from './routes/Routes';
 import NavBarFunc from './routes/NavBar';
 import JoblyApi from './api'
-import { Company, LoginData, SignupData, User } from './types/types'
-import UserContext from './auth/UserContext';
-import { decodeToken} from "react-jwt";
+import { LoginData, LogoutFunction, SignupData, UpdateProfileData, User } from './types/types'
+import UserContext from './context/UserContext';
+import { decodeToken } from "react-jwt";
+import useLocalStorage from './hooks/useLocalStorage';
+import JobAppsContext from './context/JobAppsContext';
+
+
+
+export const TOKEN_STORAGE_ID = "jobly-token";
 
 
 
 
 function App() {
 
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
-  const [token, setToken] = useState<string>()
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  interface JobAppListData {
+    appliedJobsIds: number[] | null 
+    setAppliedJobsIds: React.Dispatch<React.SetStateAction<number[] | null>>
+    prevData: null
+  }
+  // const [appliedJobsIds, setAppliedJobsIds] = useState<JobAppListData | null>()
+  const [appliedJobsIds, setAppliedJobsIds] = useState<any>(new Set([]));
 
 
   useEffect(() => {
@@ -40,46 +53,50 @@ function App() {
     getUserInfo()
   }, [token])
 
-async function login(data: LoginData) {
-  try {
-    setToken(await JoblyApi.login(data));
-    return { success: true }
+  async function login(data: LoginData) {
+    try {
+      setToken(await JoblyApi.login(data));
+      return { success: true }
 
-  } catch (error) {
-    console.error("login failed", error);
-    return { success: false, error }
+    } catch (error) {
+      console.error("login failed", error);
+      return { success: false, error }
+    }
   }
-}
 
-function logout() {
-  setCurrentUser(null);
-  setToken(undefined)
-}
+ 
 
-async function signup(data: SignupData) {
-  try {
-    setToken(await JoblyApi.signup(data));
-    return { success: true }
-  } catch (error) {
-    console.error("signup failed", error)
-    return { success: false, error }
+  const logout: LogoutFunction = () => {
+    setCurrentUser(null);
+    setToken(null);
   }
-}
+
+  async function signup(data: SignupData) {
+    try {
+      setToken(await JoblyApi.signup(data));
+      return { success: true }
+    } catch (error) {
+      console.error("signup failed", error)
+      return { success: false, error }
+    }
+  }
+
+  return (
+    <div className="App">
+      <BrowserRouter>
+
+        <JobAppsContext.Provider value={{appliedJobsIds, setAppliedJobsIds}}>
+        <UserContext.Provider value={{currentUser, setCurrentUser}}>
+          <NavBarFunc logout={logout} />
+          <RoutesFunc login={login} signup={signup} />
+        </UserContext.Provider>
+        </JobAppsContext.Provider>
 
 
-return (
-  <div className="App">
-    <BrowserRouter>
-      <NavBarFunc />
-      <UserContext.Provider value={currentUser}>
-        <RoutesFunc login={login} signup={signup} logout={logout} />
-      </UserContext.Provider>
+      </BrowserRouter>
 
-
-    </BrowserRouter>
-
-  </div>
-);
+    </div>
+  );
 }
 
 export default App;
