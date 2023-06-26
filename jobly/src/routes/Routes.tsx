@@ -13,7 +13,7 @@ import ProfileForm from '../profile/ProfileForm';
 
 
 
-export default function RoutesFunc({ login, signup, updateProfile }: AuthFuncProp) {
+export default function RoutesFunc({ login, signup }: AuthFuncProp) {
     return (
         <Routes>
 
