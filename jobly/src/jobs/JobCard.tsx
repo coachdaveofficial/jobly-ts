@@ -11,6 +11,9 @@ export default function JobCard({ id, title, salary, equity, companyHandle }: Jo
   async function handleApply() {
     try {
       await JoblyApi.applyToJob(currentUser?.username, id)
+      
+      type issues below
+      
       setAppliedJobsIds(prevData => {
         console.log(prevData);
         if (prevData !== undefined && prevData !== null) {
