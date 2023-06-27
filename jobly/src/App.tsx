@@ -29,6 +29,7 @@ function App() {
     prevData: null
   }
   // const [appliedJobsIds, setAppliedJobsIds] = useState<JobAppListData | null>()
+  how do I type this??
   const [appliedJobsIds, setAppliedJobsIds] = useState<any>(new Set([]));
 
 
