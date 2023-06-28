@@ -3,9 +3,11 @@ import {User} from '../types/types'
 
 /** Context: provides currentUser object and setter for it throughout app. */
 
-how to type?
+interface UserContextType {
+    currentUser: User | null
+}
 
-const UserContext = React.createContext<any>(null);
+const UserContext = React.createContext<UserContextType>({currentUser: null});
 
 
 

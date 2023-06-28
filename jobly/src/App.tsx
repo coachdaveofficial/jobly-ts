@@ -28,9 +28,8 @@ function App() {
     setAppliedJobsIds: React.Dispatch<React.SetStateAction<number[] | null>>
     prevData: null
   }
-  // const [appliedJobsIds, setAppliedJobsIds] = useState<JobAppListData | null>()
-  how do I type this??
-  const [appliedJobsIds, setAppliedJobsIds] = useState<any>(new Set([]));
+
+  const [appliedJobsIds, setAppliedJobsIds] = useState<Set<number>>(new Set([]));
 
 
   useEffect(() => {
