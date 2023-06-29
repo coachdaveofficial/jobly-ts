@@ -36,9 +36,9 @@ export default function RoutesFunc({ login, signup }: AuthFuncProp) {
             />
 
             <Route
-                path="/companies:handle"
+                path="/companies/:handle"
                 element={
-                    <PrivateRoute path='/companies' component={CompanyDetail} />
+                    <PrivateRoute path='/companies/:handle' component={CompanyDetail} />
                 }
             />
 

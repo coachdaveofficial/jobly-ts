@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
 import UserContext from "../context/UserContext";
-import { LogoutFunction, NavBarProps } from '../types/types';
+import { NavBarProps } from '../types/types';
 
 
 export default function NavBarFunc({logout}:NavBarProps) {

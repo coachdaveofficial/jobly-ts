@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams, Outlet } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 /** 
@@ -15,12 +15,14 @@ interface Props {
     additionalProps?: any;
   }
 
-export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent, additionalProps }) => {
+export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent, additionalProps}) => {
     const {currentUser} = useContext(UserContext);
+    const {handle} = useParams();
 
     console.debug("PrivateRoute", "currentUser=", currentUser);
+    let props;
+    handle ? props = { ...additionalProps, handle } : props = {...additionalProps}
 
-
-    return currentUser ? <RouteComponent {...additionalProps} /> : <Navigate to={"/login"} />
+    return currentUser ? <RouteComponent {...props} /> : <Navigate to={"/login"} />
 }
 
