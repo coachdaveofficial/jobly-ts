@@ -3,6 +3,7 @@ import '../auth/Login.css'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../context/UserContext'
 import JoblyApi from '../api'
+import { User } from '../types/types'
 
 
 
@@ -41,7 +42,7 @@ export default function ProfileForm() {
       
           let username = formData.username;
           let password = formData.password;
-          let updatedUser;
+          let updatedUser: User
       
           try {
             await JoblyApi.login({username, password });
