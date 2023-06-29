@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import './App.css';
+import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import RoutesFunc from './routes/Routes';
 import NavBarFunc from './routes/NavBar';
@@ -22,14 +22,7 @@ function App() {
 
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  interface JobAppListData {
-    appliedJobsIds: number[] | null 
-    setAppliedJobsIds: React.Dispatch<React.SetStateAction<number[] | null>>
-    prevData: null
-  }
-
-  const [appliedJobsIds, setAppliedJobsIds] = useState<Set<number>>(new Set([]));
+  const [applicationIds, setApplicationIds] = useState<Set<number>>(new Set([]));
 
 
   useEffect(() => {
@@ -42,6 +35,7 @@ function App() {
             JoblyApi.token = token;
             let currentUser = await JoblyApi.getCurrentUser(username);
             setCurrentUser(currentUser);
+            setApplicationIds(new Set(currentUser.applications));
           }
         } catch (error) {
           console.error('App getUserInfo: error', error)
@@ -81,11 +75,13 @@ function App() {
     }
   }
 
+  
+
   return (
     <div className="App">
       <BrowserRouter>
 
-        <JobAppsContext.Provider value={{appliedJobsIds, setAppliedJobsIds}}>
+        <JobAppsContext.Provider value={{applicationIds, setApplicationIds}}>
         <UserContext.Provider value={{currentUser, setCurrentUser}}>
           <NavBarFunc logout={logout} />
           <RoutesFunc login={login} signup={signup} />
