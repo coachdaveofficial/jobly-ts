@@ -1,17 +1,23 @@
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 
 
 /** Context: provides appliedJobIds and setAppliedJobIds object and setter for it throughout app. */
 
+// type AppliedJobsContextType = {
+//     appliedJobsIds: Set<number>,
+//     setAppliedJobsIds: (prevData: Set<number>) => void
+// }
 type AppliedJobsContextType = {
-    appliedJobsIds: Set<number>,
-    setAppliedJobsIds: (prevData: Set<number>) => void
+    applicationIds: Set<number>,
+    setApplicationIds: Dispatch<SetStateAction<Set<number>>>
 }
 
 const AppliedJobsContextState = {
-    appliedJobsIds: new Set<number>([]),
-    setAppliedJobsIds: () => { }
+    applicationIds: new Set<number>([]),
+    setApplicationIds: () => {}
 }
+
+
 
 const AppliedJobsContext = React.createContext<AppliedJobsContextType>(AppliedJobsContextState)
 
