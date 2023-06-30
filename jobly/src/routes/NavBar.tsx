@@ -12,7 +12,7 @@ export default function NavBarFunc({logout}:NavBarProps) {
         <div style={{ backgroundColor: "lightblue" }}>
             <Navbar expand="md">
                 <NavLink to="/" className="navbar-brand">
-                    Jobly
+                    <b>Jobly</b>
                 </NavLink>
 
                 <Nav className="ml-auto" navbar>

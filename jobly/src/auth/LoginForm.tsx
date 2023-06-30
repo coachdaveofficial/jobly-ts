@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import './Login.css'
 import { LoginFuncProp } from '../types/types'
 import { useNavigate } from 'react-router-dom'
-import AuthRedirect from '../common/AuthRedirect'
+// import AuthRedirect from '../common/AuthRedirect'
 
 
 
 export default function LoginForm({ login }: LoginFuncProp) {
-
-    // if logged in, redirect to /companies
-    // AuthRedirect('/companies');
 
     const INITIAL_STATE = {
         username: "testuser",
