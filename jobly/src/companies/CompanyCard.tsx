@@ -4,7 +4,7 @@ import { Company } from '../types/types';
 
 export default function CompanyCard({name, description, handle, logoUrl}:Company) {
     return (
-        <Link className="CompanyCard card" to={`/companies/${handle}`}>
+        <Link className="CompanyCard card mb-4" to={`/companies/${handle}`}>
         <div className="card-body">
           <h6 className="card-title">
             {name}

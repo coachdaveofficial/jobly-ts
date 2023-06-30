@@ -22,17 +22,28 @@ export default function JobList() {
     return (
         <div className='col-md-8 offset-md-2 text-start'>
             <SearchForm searchFor={search} />
-            {jobs.map(
-                job =>
-                    <JobCard
-                        key={job.id}
-                        id={job.id}
-                        title={job.title}
-                        salary={job.salary}
-                        equity={job.equity}
-                        companyHandle={job.companyHandle}
-                    />
-            )}
+
+            {
+                jobs.length ?
+                    <>
+                        {jobs.map(
+                            job =>
+                                <JobCard
+                                    key={job.id}
+                                    id={job.id}
+                                    title={job.title}
+                                    salary={job.salary}
+                                    equity={job.equity}
+                                    companyHandle={job.companyHandle}
+                                />
+                        )}
+                    </>
+                    :
+                    <>
+                        <h3>Sorry, no results!</h3>
+                    </>
+            }
+
         </div>
     )
 

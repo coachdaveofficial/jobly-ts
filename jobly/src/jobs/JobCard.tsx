@@ -39,7 +39,7 @@ export default function JobCard({ id, title, salary, equity, companyHandle }: Jo
     }
   }
   return (
-    <div className="JobCard card my-2" id={`job-${id}`}>
+    <div className="JobCard card mb-4" id={`job-${id}`}>
       <div className="card-body">
         <h6 className="card-title">{title}</h6>
         <p>{companyHandle}</p>
