@@ -38,7 +38,7 @@ function SearchForm({ searchFor }: SearchFormProps) {
 
   return (
       <div className="SearchForm mb-4">
-        <form className="form-inline" onSubmit={handleSubmit}>
+        <form className="Search form-inline" onSubmit={handleSubmit}>
           <input
               className="form-control form-control-lg flex-grow-1"
               name="searchTerm"
