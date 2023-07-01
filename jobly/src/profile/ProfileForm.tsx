@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import UserContext from '../context/UserContext'
 import JoblyApi from '../api'
 import { User } from '../types/types'
+import Alert from '../common/Alert'
 
 
 
 
 
 export default function ProfileForm() {
-    const {currentUser, setCurrentUser} = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     const INITIAL_STATE = {
@@ -21,39 +22,43 @@ export default function ProfileForm() {
         email: currentUser?.email
     }
     const [formData, setFormData] = useState(INITIAL_STATE)
-    
+    const [formErrors, setFormErrors] = useState([])
+    const [updateSuccess, setUpdateSuccess] = useState(false)
+
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = evt.target;
+        const { name, value } = evt.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value
         }));
     }
 
-    const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) =>{
+    const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         let profileData = {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
             password: formData.password,
-          };
-      
-          let username = formData.username;
-          let password = formData.password;
-          let updatedUser: User
-      
-          try {
-            await JoblyApi.login({username, password });
-            updatedUser = await JoblyApi.saveProfile(username, profileData);
-            alert("Successfully updated!")
-          } catch (errors) {
-            alert(errors)
-            return;
-          }
+        };
 
-          setCurrentUser(updatedUser);
+        let username = formData.username;
+        let password = formData.password;
+        let updatedUser: User
+
+        try {
+            await JoblyApi.login({ username, password });
+            updatedUser = await JoblyApi.saveProfile(username, profileData);
+            setUpdateSuccess(true);
+            setFormErrors([])
+        } catch (errors: any) {
+            setUpdateSuccess(false);
+            setFormErrors(errors);
+            return;
+        }
+
+        setCurrentUser(updatedUser);
 
     }
 
@@ -63,62 +68,72 @@ export default function ProfileForm() {
 
                 <div className="login-container">
                     <label className='form-label' htmlFor="username"><b>Username</b></label>
-                    <input 
-                    disabled
-                    className='form-control'
-                    id='username'
-                    type="text" 
-                    placeholder="Enter Username" 
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required 
+                    <input
+                        disabled
+                        className='form-control'
+                        id='username'
+                        type="text"
+                        placeholder="Enter Username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
                     />
 
 
                     <label className='form-label' htmlFor="firstName"><b>First Name</b></label>
-                    <input 
-                    className='form-control'
-                    id='firstName'
-                    type="text" 
-                    placeholder="Enter First Name" 
-                    name="firstName" 
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    required />
+                    <input
+                        className='form-control'
+                        id='firstName'
+                        type="text"
+                        placeholder="Enter First Name"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required />
 
                     <label className='form-label' htmlFor="lastName"><b>Last Name</b></label>
-                    <input 
-                    className='form-control'
-                    id='lastName'
-                    type="text" 
-                    placeholder="Enter Last Name" 
-                    name="lastName" 
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    required />
+                    <input
+                        className='form-control'
+                        id='lastName'
+                        type="text"
+                        placeholder="Enter Last Name"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required />
 
                     <label className='form-label' htmlFor="password"><b>Password</b></label>
-                    <input 
-                    className='form-control'
-                    id='password'
-                    type="password" 
-                    placeholder="Enter Password" 
-                    name="password" 
-                    value={formData.password}
-                    onChange={handleChange}
-                    required />
+                    <input
+                        className='form-control'
+                        id='password'
+                        type="password"
+                        placeholder="Enter Password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required />
 
                     <label className='form-label' htmlFor="email"><b>Email</b></label>
-                    <input 
-                    className='form-control'
-                    id='email'
-                    type="text" 
-                    placeholder="Enter Email" 
-                    name="email" 
-                    value={formData.email}
-                    onChange={handleChange}
-                    required />
+                    <input
+                        className='form-control'
+                        id='email'
+                        type="text"
+                        placeholder="Enter Email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required />
+
+                    {formErrors.length
+                        ? <Alert type="danger" messages={formErrors} />
+                        : null}
+
+                    {updateSuccess
+                        ? <Alert type='success' messages={["Successfully Updated"]} />
+                        : null}
+
+
 
                     <button className='btn btn-primary' type="submit">Update Profile</button>
 

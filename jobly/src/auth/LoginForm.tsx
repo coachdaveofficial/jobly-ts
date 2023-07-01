@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import { LoginFuncProp } from '../types/types'
 import { useNavigate } from 'react-router-dom'
+import Alert from '../common/Alert'
 // import AuthRedirect from '../common/AuthRedirect'
 
 
@@ -13,6 +14,7 @@ export default function LoginForm({ login }: LoginFuncProp) {
         password: "password"
     }
     const [formData, setFormData] = useState(INITIAL_STATE)
+    const [formErrors, setFormErrors] = useState([])
     const navigate = useNavigate();
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +31,7 @@ export default function LoginForm({ login }: LoginFuncProp) {
         if (result.success) {
             navigate('/companies');
         } else {
-            alert(result.error);
+            setFormErrors(result.error)
         }
     }
 
@@ -60,6 +62,10 @@ export default function LoginForm({ login }: LoginFuncProp) {
                         value={formData.password}
                         onChange={handleChange}
                         required />
+
+                    {formErrors.length
+                        ? <Alert type="danger" messages={formErrors} />
+                        : null}
 
                     <button className='btn btn-primary' type="submit">Login</button>
 

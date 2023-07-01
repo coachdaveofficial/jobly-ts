@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import { SignupFuncProp } from '../types/types'
 import { useNavigate } from 'react-router-dom'
+import Alert from '../common/Alert'
 
 
 
@@ -14,7 +15,8 @@ export default function SignupForm({ signup }: SignupFuncProp) {
         email: ""
 
     }
-    const [formData, setFormData] = useState(INITIAL_STATE)
+    const [formData, setFormData] = useState(INITIAL_STATE);
+    const [formErrors, setFormErrors] = useState([]);
     const navigate = useNavigate();
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +33,7 @@ export default function SignupForm({ signup }: SignupFuncProp) {
         if (result.success) {
             navigate('/companies')
         } else {
-            alert(result.error);
+            setFormErrors(result.error);
         }
 
     }
@@ -96,6 +98,10 @@ export default function SignupForm({ signup }: SignupFuncProp) {
                         value={formData.email}
                         onChange={handleChange}
                         required />
+                        
+                    {formErrors.length
+                        ? <Alert type="danger" messages={formErrors} />
+                        : null}
 
                     <button className='btn btn-primary' type="submit">Signup</button>
 
