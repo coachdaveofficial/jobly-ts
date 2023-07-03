@@ -69,6 +69,17 @@ class User {
       throw new BadRequestError(`Duplicate username: ${username}`);
     }
 
+    const duplicateEmailCheck = await db.query(
+          `SELECT email
+           FROM users
+           WHERE email = $1`,
+        [email],
+    );
+
+    if (duplicateEmailCheck.rows[0]) {
+      throw new BadRequestError(`This email already in use: ${email}`);
+    }
+
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
