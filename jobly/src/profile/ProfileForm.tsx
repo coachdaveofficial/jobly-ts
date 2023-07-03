@@ -7,7 +7,7 @@ import { User } from '../types/types'
 import Alert from '../common/Alert'
 
 
-
+// Form to edit user info, only accessible if logged in
 
 
 export default function ProfileForm() {
