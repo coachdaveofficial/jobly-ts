@@ -10,8 +10,8 @@ import Alert from '../common/Alert'
 export default function LoginForm({ login }: LoginFuncProp) {
 
     const INITIAL_STATE = {
-        username: "testuser",
-        password: "password"
+        username: "",
+        password: ""
     }
     const [formData, setFormData] = useState(INITIAL_STATE)
     const [formErrors, setFormErrors] = useState([])

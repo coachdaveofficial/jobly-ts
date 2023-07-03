@@ -8,8 +8,8 @@ import Alert from '../common/Alert'
 
 export default function SignupForm({ signup }: SignupFuncProp) {
     const INITIAL_STATE = {
-        username: "testuser",
-        password: "password",
+        username: "",
+        password: "",
         firstName: "",
         lastName: "",
         email: ""
