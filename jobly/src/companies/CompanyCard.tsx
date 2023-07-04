@@ -14,7 +14,7 @@ export default function CompanyCard({ name, description, handle, logoUrl }: Comp
           {name}
           {logoUrl && <img src={logoUrl}
             alt={name}
-            className="float-right ml-5" />}
+            className="float-end ms-5" />}
         </h6>
         <p ><small>{description}</small></p>
       </div>
