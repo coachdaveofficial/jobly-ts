@@ -4,7 +4,9 @@
     align-items: center;
     justify-content: center;
     height: 100vh; /* Set the height to the full viewport height */
-    background-image: url("../milky-way-2695569_1280.jpg");
+    background-image: url("/public/Home.png");
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   
   .homepage-title {

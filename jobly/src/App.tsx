@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import RoutesFunc from './routes/Routes';
 import NavBarFunc from './routes/NavBar';
 import JoblyApi from './api'
-import { LoginData, LogoutFunction, SignupData, UpdateProfileData, User } from './types/types'
+import { LoginData, LogoutFunction, SignupData, User } from './types/types'
 import UserContext from './context/UserContext';
 import { decodeToken } from "react-jwt";
 import useLocalStorage from './hooks/useLocalStorage';

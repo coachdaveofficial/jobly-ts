@@ -10,12 +10,13 @@ export default function JobCard({ id, title, salary, equity, companyHandle }: Jo
   const { applicationIds, setApplicationIds } = useContext(JobAppsContext);
   const [applied, setApplied] = useState<boolean>();
 
-
+  // eslint-disable-next-line
   function hasAppliedToJob(id: number) {
     return applicationIds.has(id);
   }
 
   useEffect(function updateAppliedStatus() {
+    
     setApplied(hasAppliedToJob(id));
   }, [id, hasAppliedToJob]);
 

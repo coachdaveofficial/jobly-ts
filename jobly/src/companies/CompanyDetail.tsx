@@ -5,7 +5,7 @@ import { Company } from '../types/types';
 import JobCard from "../jobs/JobCard";
 
 
-export default function CompanyDetail({}) {
+export default function CompanyDetail() {
     const { handle } = useParams();
     const [company, setCompany] = useState<Company>();
 

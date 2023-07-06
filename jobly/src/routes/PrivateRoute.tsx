@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Navigate, useParams, Outlet } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 /** 
